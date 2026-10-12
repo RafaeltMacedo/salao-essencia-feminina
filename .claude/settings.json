@@ -16,8 +16,21 @@
       "PowerShell(firebase deploy:*)",
       "Bash(firebase database:*)",
       "PowerShell(firebase database:*)",
+      "Bash(npx firebase:*)",
+      "PowerShell(npx firebase:*)",
+      "Bash(npm exec firebase:*)",
+      "PowerShell(npm exec firebase:*)",
+      "Bash(cmd /c firebase:*)",
+      "PowerShell(cmd /c firebase:*)",
+      "mcp__firebase__firebase_deploy",
+      "mcp__firebase__realtimedatabase_set_data",
+      "mcp__firebase__auth_update_user",
+      "mcp__firebase__auth_set_sms_region_policy",
+      "mcp__firebase__messaging_send_message",
       "Bash(git push:*)",
-      "PowerShell(git push:*)"
+      "PowerShell(git push:*)",
+      "Bash(gh repo:*)",
+      "PowerShell(gh repo:*)"
     ],
     "deny": [
       "Read(**/*.jks)",
