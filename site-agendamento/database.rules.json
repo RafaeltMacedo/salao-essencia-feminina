@@ -14,7 +14,8 @@
     "agendamentos": {
       ".read": "auth != null && root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira'",
       "$agendamentoId": {
-        ".write": "auth != null && (root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira' || (!data.exists() && newData.child('clienteUid').val() === auth.uid) || (data.exists() && data.child('clienteUid').val() === auth.uid))"
+        ".write": "auth != null && (root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira' || (!data.exists() && newData.child('clienteUid').val() === auth.uid) || (data.exists() && data.child('clienteUid').val() === auth.uid))",
+        ".validate": "root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira' || (newData.child('clienteUid').val() === auth.uid && (data.exists() ? newData.child('status').val() === data.child('status').val() : newData.child('status').val() === 'pendente') && newData.child('data').isString() && newData.child('hora').isString() && newData.parent().parent().child('horarios_ocupados').child(newData.child('data').val().replace('/', '-')).child(newData.child('hora').val()).val() === auth.uid)"
       }
     },
     "agendamentos_por_cliente": {

@@ -104,7 +104,11 @@ nunca editar pelo Console). Para conferir a versão no ar, rodar pelo PowerShell
 - `agendamentos`: leitura da lista completa só pra quem tem
   `tipo == "cabeleireira"`. Escrita por item: cabeleireira sempre pode;
   cliente só pode criar com `clienteUid == auth.uid`, e só pode
-  editar/excluir o que já é dela.
+  editar/excluir o que já é dela. Para cliente, o `.validate` exige ainda:
+  `status` "pendente" ao criar e inalterado ao editar (só a cabeleireira
+  conclui), `clienteUid` inalterado, e o bloco `horarios_ocupados/{data}/{hora}`
+  do início reservado no uid dela **na mesma gravação** (por isso criar/editar
+  tem que continuar sendo multi-path junto com a reserva).
 - `agendamentos_por_cliente/$clienteUid`: cada cliente só lê/escreve a
   própria subárvore.
 - `horarios_ocupados/$data/$hora`: escrita permitida se o bloco ainda não
