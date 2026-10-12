@@ -13,7 +13,8 @@ Projeto: `cabeleleiro-ff23d` — URL: https://cabeleleiro-ff23d.web.app
 1. `site-agendamento/index.html` existe e não está vazio.
 2. `git status` limpo, ou mostrar ao usuário o que vai ao ar sem commit.
 3. `firebase.json`:
-   - `"ignore"` contém `**/*.md`, `database.rules.json`, `.claude/**`.
+   - `"ignore"` contém `**/*.md`, `database.rules.json`, `.claude/**`,
+     `**/firebase.json`, `functions/**`, `testes-regras/**`.
    - `.well-known` **não** está ignorado.
 4. `.well-known/assetlinks.json` é JSON válido e tem
    `package_name: com.example.cabeleleiro`.
@@ -28,12 +29,20 @@ cd site-agendamento
 firebase deploy --only hosting
 ```
 
+Só o site. Regras do banco são outra publicação (`--only database`), com os
+testes de `testes-regras/` antes. Nunca `firebase deploy` sem `--only`.
+
 ## Depois
 
 - `https://cabeleleiro-ff23d.web.app/` responde 200.
 - `https://cabeleleiro-ff23d.web.app/.well-known/assetlinks.json` devolve
   JSON puro (não HTML).
-- `https://cabeleleiro-ff23d.web.app/CLAUDE.md` **não** deve devolver o
-  arquivo (o rewrite devolve o index.html — conferir que o conteúdo não é o
-  markdown).
+- Arquivos internos **não** podem estar publicados. Cada endereço abaixo tem
+  que devolver o index.html do site (o rewrite), nunca o arquivo de verdade:
+  `/CLAUDE.md`, `/database.rules.json`, `/firebase.json`,
+  `/.well-known/firebase.json`, `/package-lock.json`, `/.gitignore`,
+  `/functions/index.js`, `/testes-regras/regras.test.js`.
+  Se algum vazar, avisar o usuário na hora.
+- O deploy deve listar poucos arquivos ("found N files"): hoje são 2
+  (`index.html` e `.well-known/assetlinks.json`). Número maior = conferir o `ignore`.
 - Sugerir commit/tag: `git tag site-AAAA-MM-DD`.
