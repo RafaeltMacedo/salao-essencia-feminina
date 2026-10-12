@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Cabeleleiro" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/cor_dourado</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/cor_dourado_claro</item>
+        <item name="colorSurface">@color/cor_fundo_card</item>
+        <item name="colorOnSurface">@color/cor_texto_claro</item>
+        <item name="android:colorBackground">@color/cor_fundo</item>
+        <item name="colorOnBackground">@color/cor_texto_claro</item>
+    </style>
+
+
+    <style name="Theme.Cabeleleiro" parent="Base.Theme.Cabeleleiro" />
+</resources>

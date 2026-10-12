@@ -1,0 +1,28 @@
+# ---- Android (cabeleleiro/) ----
+*.iml
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+local.properties
+*.apk
+*.aab
+*.keystore
+*.jks
+.idea/
+
+# ---- Firebase / Node (site-agendamento/) ----
+node_modules/
+.firebase/
+*.log
+firebase-debug.*.log*
+.env
+.env.*
+
+# ---- Claude Code (config pessoal, não versionar) ----
+.claude/settings.local.json
+
+# ---- Sistema ----
+.DS_Store
+Thumbs.db

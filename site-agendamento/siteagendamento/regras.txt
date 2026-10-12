@@ -1,0 +1,38 @@
+{
+  "rules": {
+    "usuarios": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "agendamentos": {
+      ".read": "auth != null && root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira'",
+      "$agendamentoId": {
+        ".write": "auth != null && (root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira' || (!data.exists() && newData.child('clienteUid').val() === auth.uid) || (data.exists() && data.child('clienteUid').val() === auth.uid))"
+      }
+    },
+    "agendamentos_por_cliente": {
+      "$clienteUid": {
+        ".read": "auth != null && auth.uid === $clienteUid",
+        ".write": "auth != null && (auth.uid === $clienteUid || root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira')"
+      }
+    },
+    "horarios_ocupados": {
+      ".read": "auth != null",
+      "$data": {
+        "$hora": {
+          ".write": "auth != null && ( !data.exists() || auth.uid === data.val() || root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira' )"
+        }
+      }
+    },
+    "servicos": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira'"
+    },
+    "configuracoes": {
+      ".read": "auth != null",
+      ".write": "auth != null && root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira'"
+    }
+  }
+}

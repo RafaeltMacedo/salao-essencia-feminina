@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.cabeleleiro",
+    "sha256_cert_fingerprints": [
+      "B7:A3:34:F2:8C:3D:08:6E:8F:29:2B:6D:1A:2C:4A:A2:0D:CC:0E:F4:69:97:A3:59:41:A1:B0:DF:10:ED:B8:97"
+    ]
+  }
+}]

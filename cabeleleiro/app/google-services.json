@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "887486118254",
+    "project_id": "cabeleleiro-ff23d",
+    "storage_bucket": "cabeleleiro-ff23d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887486118254:android:9d5dea72013554bc57e97f",
+        "android_client_info": {
+          "package_name": "com.example.cabeleleiro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2j9UARPlVaElHLkTV-oNeppCB6jjQr9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
