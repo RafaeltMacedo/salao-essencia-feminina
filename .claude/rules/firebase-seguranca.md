@@ -16,7 +16,8 @@ paths:
   `firebase deploy --only database`, sempre com confirmação). Antes de
   publicar, conferir que a versão no ar não foi mudada pelo Console
   (`firebase database:get /.settings/rules --instance cabeleleiro-ff23d-default-rtdb`,
-  pelo PowerShell) e testar no emulador; avisar se divergirem.
+  pelo PowerShell) e rodar `site-agendamento/testes-regras/regras.test.js`
+  no emulador (acrescentar casos para a mudança nova); avisar se divergirem.
 - Ninguém pode se autopromover a `tipo: "cabeleireira"`. Toda mudança de regra
   em `usuarios/$uid` deve manter essa garantia.
 - `firebase.json`: nunca remover `.well-known` do que é publicado (quebra o

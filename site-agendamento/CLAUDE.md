@@ -27,6 +27,10 @@ site-agendamento/
                           `firebase deploy` sem `--only`: publicaria regras,
                           site e functions de uma vez. Não editar regras
                           pelo Console (o próximo deploy apagaria a mudança)
+  testes-regras/
+    regras.test.js      ← testes das regras no emulador (rodar antes de
+                          publicar regras; comando no topo do arquivo).
+                          Fica fora do site pelo "ignore" do firebase.json
   .well-known/
     assetlinks.json     ← prova que o site e o app Android são "parentes",
                           necessário pro App Link do app funcionar

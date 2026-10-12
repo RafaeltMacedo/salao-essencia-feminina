@@ -10,6 +10,7 @@
       ".firebase/**",
       "**/node_modules/**",
       "functions/**",
+      "testes-regras/**",
       "**/*.md",
       ".gitignore",
       "package-lock.json",
