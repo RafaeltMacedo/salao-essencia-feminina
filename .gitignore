@@ -10,6 +10,7 @@ local.properties
 *.aab
 *.keystore
 *.jks
+keystore.properties
 .idea/
 
 # ---- Firebase / Node (site-agendamento/) ----

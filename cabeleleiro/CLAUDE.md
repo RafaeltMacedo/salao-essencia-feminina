@@ -91,12 +91,16 @@ configuracoes/diasFuncionamento
 
 ## Regras de segurança (Realtime Database)
 
-O arquivo de regras publicado está documentado e versionado fora deste repo
-(peça pro usuário mandar o conteúdo atual do Firebase Console se precisar
-conferir). Pontos-chave:
+As regras ficam em `site-agendamento/database.rules.json`, que é a fonte da
+verdade desde 2026-10-12 (publicar com `firebase deploy --only database`,
+nunca editar pelo Console). Para conferir a versão no ar, rodar pelo PowerShell
+`firebase database:get /.settings/rules --instance cabeleleiro-ff23d-default-rtdb`
+(no Git Bash o `/` vira caminho do Windows). Pontos-chave:
 
 - `usuarios/$uid`: só o próprio dono lê/escreve. O campo `tipo` tem
-  `.validate` que impede autopromoção pra `cabeleireira`.
+  `.validate` que impede autopromoção pra `cabeleireira`, e depois de existir
+  não pode ser apagado (um `set()` do perfil sem `tipo` é recusado; para
+  mudar nome/telefone usar `update()`/`updateChildren()`).
 - `agendamentos`: leitura da lista completa só pra quem tem
   `tipo == "cabeleireira"`. Escrita por item: cabeleireira sempre pode;
   cliente só pode criar com `clienteUid == auth.uid`, e só pode
@@ -105,7 +109,9 @@ conferir). Pontos-chave:
   própria subárvore.
 - `horarios_ocupados/$data/$hora`: escrita permitida se o bloco ainda não
   existe, ou se quem está escrevendo é o dono original do bloco, ou se é a
-  cabeleireira.
+  cabeleireira. O valor gravado tem que ser o uid de quem está gravando
+  (só a cabeleireira pode gravar o uid de outra pessoa), então o app e o
+  site devem sempre gravar `clienteUid`/`auth.uid` nesse nó.
 - `servicos` e `configuracoes`: leitura livre pra qualquer autenticado,
   escrita só pela cabeleireira.
 
@@ -137,8 +143,8 @@ conferir). Pontos-chave:
   Store, que assina com chave própria), o novo SHA-256 precisa ser
   adicionado à lista `sha256_cert_fingerprints` do `assetlinks.json`, senão
   o link para de abrir o app direto.
-- Pra pegar o SHA-256 do keystore de debug atual: `gradlew signingReport`
-  (procurar o bloco `Variant: debug`).
+- Pra pegar o SHA-256 da chave atual: `gradlew signingReport` (bloco
+  `Variant: release`), ou `apksigner verify --print-certs` no APK gerado.
 
 ## Identidade visual
 
@@ -157,7 +163,17 @@ conferir). Pontos-chave:
 
 - Abrir a pasta `cabeleleiro` (a que tem `build.gradle.kts` direto dentro)
   no Android Studio.
-- Gerar APK: **Build → Generate App Bundles or APKs → Generate APKs**.
+- Gerar APK para distribuir: **sempre o release**, `gradlew assembleRelease`
+  → `app/build/outputs/apk/release/app-release.apk` (no Android Studio:
+  Build Variants = release). Não distribuir mais o `app-debug.apk`.
+- Assinatura (decidido em 2026-10-12): o release é assinado com a **mesma
+  chave debug** que sempre assinou o app (SHA-256 `B7:A3:34…B8:97`, igual
+  ao `assetlinks.json`), copiada para `cabeleleiro/assinatura.keystore`.
+  Os dados ficam em `cabeleleiro/keystore.properties`. Os dois estão no
+  `.gitignore` e o `build.gradle.kts` lê esse arquivo. Assim as clientes
+  atualizam sem desinstalar. **Perder essa chave obriga todas as clientes a
+  reinstalar o app**, então manter cópia de segurança dos dois arquivos
+  fora deste computador. Trocar por chave nova só se for para a Play Store.
 - O usuário distribui o APK manualmente (WhatsApp como Documento, ou link
   do Drive) — o app ainda não está na Play Store.
 - `minSdk` relativamente baixo, mas as funcionalidades mais recentes

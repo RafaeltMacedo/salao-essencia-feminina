@@ -1,6 +1,28 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.services)
+}
+
+// Dados da chave de assinatura, num arquivo fora do git (cabeleleiro/keystore.properties).
+// Sem esse arquivo o build release sai sem assinatura e não instala.
+val arquivoChave = rootProject.file("keystore.properties")
+val dadosChave = Properties().apply {
+    if (arquivoChave.exists()) arquivoChave.inputStream().use { load(it) }
+}
+fun dadoChave(nome: String): String = dadosChave.getProperty(nome)
+    ?: throw GradleException("Falta '$nome' em cabeleleiro/keystore.properties (ver cabeleleiro/CLAUDE.md, seção Build).")
+
+// Gerar o APK release sem a chave produziria um APK que as clientes não conseguem
+// instalar por cima do atual: melhor parar com uma mensagem clara.
+gradle.taskGraph.whenReady {
+    if (!arquivoChave.exists() && allTasks.any { it.name.contains("Release") }) {
+        throw GradleException(
+            "Falta cabeleleiro/keystore.properties (e a assinatura.keystore). Copie os dois da " +
+            "cópia de segurança antes de gerar o APK release (ver cabeleleiro/CLAUDE.md, seção Build)."
+        )
+    }
 }
 
 android {
@@ -17,8 +39,22 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        if (arquivoChave.exists()) {
+            create("release") {
+                storeFile = rootProject.file(dadoChave("storeFile"))
+                storePassword = dadoChave("storePassword")
+                keyAlias = dadoChave("keyAlias")
+                keyPassword = dadoChave("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            if (arquivoChave.exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),

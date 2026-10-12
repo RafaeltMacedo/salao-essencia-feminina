@@ -1,9 +1,14 @@
 {
   "rules": {
     "usuarios": {
+      ".indexOn": ["tipo"],
       "$uid": {
         ".read": "auth != null && auth.uid === $uid",
-        ".write": "auth != null && auth.uid === $uid"
+        ".write": "auth != null && auth.uid === $uid",
+        ".validate": "!data.child('tipo').exists() || newData.child('tipo').exists()",
+        "tipo": {
+          ".validate": "newData.isString() && (newData.val() === data.val() || (!data.exists() && newData.val() === 'cliente'))"
+        }
       }
     },
     "agendamentos": {
@@ -22,7 +27,8 @@
       ".read": "auth != null",
       "$data": {
         "$hora": {
-          ".write": "auth != null && ( !data.exists() || auth.uid === data.val() || root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira' )"
+          ".write": "auth != null && ( root.child('usuarios').child(auth.uid).child('tipo').val() === 'cabeleireira' || ( (!data.exists() || data.val() === auth.uid) && (!newData.exists() || newData.val() === auth.uid) ) )",
+          ".validate": "newData.isString()"
         }
       }
     },

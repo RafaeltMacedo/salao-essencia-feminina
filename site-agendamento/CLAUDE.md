@@ -21,9 +21,12 @@ site-agendamento/
   firebase.json        ← config do Hosting + Functions (o "ignore" impede
                           publicar *.md, database.rules.json etc. — não
                           remover, senão vazam no site público)
-  database.rules.json  ← cópia versionada das regras do Realtime Database
-                          (NÃO está ligada ao deploy; a fonte da verdade
-                          continua sendo o Console até isso ser decidido)
+  database.rules.json  ← regras do Realtime Database. Desde 2026-10-12 é a
+                          fonte da verdade e está ligada ao deploy
+                          (`firebase deploy --only database`). Nunca rodar
+                          `firebase deploy` sem `--only`: publicaria regras,
+                          site e functions de uma vez. Não editar regras
+                          pelo Console (o próximo deploy apagaria a mudança)
   .well-known/
     assetlinks.json     ← prova que o site e o app Android são "parentes",
                           necessário pro App Link do app funcionar
@@ -47,6 +50,13 @@ site-agendamento/
   JavaScript** da mesma lógica do `BancoController.java` do app. Se uma
   mudar, a outra precisa mudar junto, ou os dois vão divergir no que cada
   um considera "horário livre".
+- Navegação entre telas usa o histórico do navegador (`mostrarTela`,
+  `voltarPara`, evento `popstate`), para o "voltar" do celular voltar ao
+  menu em vez de fechar o site. Tela nova com botão no menu: registrar em
+  `ABRIR_TELA`. Callbacks do banco que trocam de tela devem conferir
+  `telaAtual` antes (a cliente pode já ter saído).
+- Texto vindo do banco entra na página só com `textContent` (helper
+  `elemento()`), nunca com `innerHTML`.
 - **Cuidado ao usar `snap.forEach()` do Firebase aqui também** — mesmo
   bug do lado Android: se o callback retornar algo truthy (ex:
   `array.push(x)` sem chaves, que retorna o novo tamanho do array), o
