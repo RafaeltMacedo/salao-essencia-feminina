@@ -18,7 +18,12 @@ mesmo projeto do app.
 site-agendamento/
   index.html          ← o site inteiro (HTML+CSS+JS num arquivo só,
                           sem build step, sem framework)
-  firebase.json        ← config do Hosting + Functions
+  firebase.json        ← config do Hosting + Functions (o "ignore" impede
+                          publicar *.md, database.rules.json etc. — não
+                          remover, senão vazam no site público)
+  database.rules.json  ← cópia versionada das regras do Realtime Database
+                          (NÃO está ligada ao deploy; a fonte da verdade
+                          continua sendo o Console até isso ser decidido)
   .well-known/
     assetlinks.json     ← prova que o site e o app Android são "parentes",
                           necessário pro App Link do app funcionar

@@ -1,0 +1,29 @@
+{
+  "enabledMcpjsonServers": ["firebase"],
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "PowerShell(git status:*)",
+      "PowerShell(git diff:*)",
+      "PowerShell(git log:*)",
+      "Bash(firebase functions:log:*)",
+      "PowerShell(firebase functions:log:*)"
+    ],
+    "ask": [
+      "Bash(firebase deploy:*)",
+      "PowerShell(firebase deploy:*)",
+      "Bash(firebase database:*)",
+      "PowerShell(firebase database:*)",
+      "Bash(git push:*)",
+      "PowerShell(git push:*)"
+    ],
+    "deny": [
+      "Read(**/*.jks)",
+      "Read(**/*.keystore)",
+      "Read(**/.env)",
+      "Read(**/.env.*)"
+    ]
+  }
+}

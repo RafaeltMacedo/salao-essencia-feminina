@@ -6,7 +6,12 @@
       ".firebaserc",
       ".firebase/**",
       "**/node_modules/**",
-      "functions/**"
+      "functions/**",
+      "**/*.md",
+      ".gitignore",
+      "package-lock.json",
+      "database.rules.json",
+      ".claude/**"
     ],
     "rewrites": [
       { "source": "**", "destination": "/index.html" }

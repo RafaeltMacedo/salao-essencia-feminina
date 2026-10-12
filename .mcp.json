@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "firebase": {
+      "type": "stdio",
+      "command": "cmd",
+      "args": ["/c", "firebase", "mcp", "--dir", "site-agendamento", "--only", "core,auth,database,functions,messaging"]
+    }
+  }
+}
